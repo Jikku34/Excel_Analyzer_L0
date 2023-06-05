@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Raleway', sans-serif;
+            text-decoration: none;
+            list-style: none;
+            scroll-behavior: smooth;
+        }
+
+
+        .div10 {
+            background: rgba(95, 91, 95, 0.103);
+            display: block;
+            overflow-y: hidden;
+            text-align: center;
+            width: 1140px;
+            margin-left: 130px;
+            margin-top: 40px;
+            border-radius: 10px;
+            box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.089);
+            height: 555px;
+            overflow: auto;
+        }
+
+
+         h1 {
+
+            text-align: center;
+
+            color: #14702bde;
+        }
+
+        table {
+            padding: 20px;
+            border-spacing: 13px;
+
+        }
+
+        tr {
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.052);
+            background-color: rgba(0, 225, 255, 0.034);
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        #category {
+
+
+            background: #aabeba00;
+            border-radius: 10px;
+            text-align: center;
+            color: #0c0b0b;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Open Sans', sans-serif;
+            width: 150px;
+            height: 25px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div10">
+        <br>
+
+        <h1>Excel Analyzer</h1>
+        <br>
+        <a href="{% url 'show' %}"
+            style="padding: 10px ; background-color: #30835179;color: #dde0dd; border-radius: 4px;">Home</a>
+
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <label for="category" style="font-size: 20px; margin-left:520px;">Category:</label>
+
+            <select name="student_category" id="category">
+                <option value="" disabled selected hidden>Category</option>
+                <option value="profile">Profile</option>
+                <option value="admission_details">Admission Details</option>
+                <option value="fee_details">Fee Details</option>
+            </select>
+            <input
+                style="border-radius: 5px; background-color: rgba(121, 116, 116, 0.884); border: none ; padding: 5px 5px; "
+                type="submit" value="Submit">
+        </form>
+        <br>
+
+        <hr>
+        {% if d == 'profile' %}
+        {% for x in dt %}
+        <table style="width:100%;">
+            <tr>
+                <td>Registration No</td>
+                <td>{{x.student_reg_no}}</td>
+                <td>Student Name </td>
+                <td>{{x.student_name}}</td>
+                <td>Course</td>
+                <td>{{x.student_Course}}</td>
+
+
+            </tr>
+            <tr>
+                <td>Department</td>
+                <td>{{x.student_department}}</td>
+                <td>Mode Training</td>
+                <td>{{x.student_mode_training}}</td>
+
+                <td>Phone</td>
+                <td>{{x.student_phone}}</td>
+
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{x.student_email}}</td>
+                <td>Address</td>
+                <td>
+                    <Address>{{x.student_address}}</Address>
+                </td>
+
+                <td>Company/College</td>
+                <td>{{x.student_company}}</td>
+
+            </tr>
+            <tr>
+                <td>Designation/Specialisation</td>
+                <td>{{x.student_specialisation}}</td>
+                <td>Guardian</td>
+                <td>{{x.student_guardian_name}}</td>
+                <td>Guardian Phone</td>
+                <td>{{x.student_guardian_phone}}</td>
+
+            </tr>
+            <tr>
+
+
+
+            </tr>
+
+
+
+        </table>
+        {% endfor %}
+        {% elif d == "admission_details" %}
+        {% for x in dt %}
+        {{x.student_reg_no}}
+
+        <table style="width:100%;">
+            <tr>
+                <td>Registration No</td>
+                <td>{{x.student_reg_no}}x</td>
+                <td>Student Name </td>
+                <td>{{x.student_name}}</td>
+                <td>Course</td>
+                <td>{{x.student_Course}}</td>
+
+
+            </tr>
+            <tr>
+                <td>Department</td>
+                <td>{{x.student_department}}</td>
+                <td>Mode Training</td>
+                <td>{{x.student_mode_training}}</td>
+
+                <td>reg_date</td>
+                <td>{{x.student_reg_date}}</td>
+
+            </tr>
+            <tr>
+                <td>student_admission_date</td>
+                <td>{{x.student_admission_date}}</td>
+                <td>branch</td>
+                <td>
+                    <Address>{{x.branch}}</Address>
+                </td>
+
+                <td>student_enquiry_Source</td>
+                <td>{{x.student_enquiry_Source}}</td>
+
+            </tr>
+            <tr>
+                <td>student_referral</td>
+                <td>{{x.student_referral}}</td>
+                <td>student_staff</td>
+                <td>{{x.student_staff}}</td>
+                <td>student_start_date</td>
+                <td>{{x.student_start_date}}</td>
+
+            </tr>
+
+
+
+
+
+        </table>
+        {% endfor %}
+
+
+        {% else %}
+
+        <table>
+           <tr>
+                <th>Payment Date</th>
+                <th>Amount</th>
+
+
+            </tr>
+            {% for x in dt %}
+
+            <tr>
+                <td>{{x.student_date_fee}}</td>
+                <td>{{x.student_fee}}</td>
+
+            </tr>
+            {% endfor %}
+            {% for y in dt1 %}
+            <tr>
+                <td>Total</td>
+                <td>{{y.student_fee_paid}}</td>
+            </tr>
+            <tr>
+                <td>student_effective_fee</td>
+                <td>{{y.student_effective_fee}}</td>
+            </tr>
+            <tr>
+                <td>student_balance_fee</td>
+                <td>{{y.student_balance_fee}}</td>
+            </tr>
+            <tr>
+                <td>student_fee_status</td>
+                <td>{{y.student_fee_status}}</td>
+            </tr>
+
+            {% endfor %}
+        </table>
+
+
+
+
+
+
+
+
+        {% endif %}
+
+
+    </div>
+
+</body>
+
+</html>

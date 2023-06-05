@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .home-page {
+            margin-top: 100px;
+            margin-left: 350px;
+            background-color: rgba(127, 255, 212, 0.274);
+            text-align: left;
+            box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.082);
+            padding-left: 50px;
+            height: 400px;
+            width: 600px;
+            border-radius: 10px;
+        }
+
+        h1 {
+
+            text-align: center;
+
+            color: #14702bde;
+        }
+
+        .home-button {
+            border-radius: 5px;
+            width: 150px;
+            height: 30px;
+            border: none;
+            background-color: #15632860;
+            margin-left: 200px;
+            margin-top: 50px;
+
+        }
+
+        .home-button:hover {
+            background-color: #156328a4;
+            box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.082);
+
+        }
+
+        .home-label {
+
+            color: #3b3737;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="home-page">
+        <br>
+        <h1> Welcome to Excel Analyzer </h1>
+                <a href="{% url 'remove' %}"
+            style="padding: 10px ;  background-color: #30835179;color: #dde0dd; border-radius: 4px;"> NEW</a>
+        <br>
+        <br>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="registration_file_upload" class="home-label">Upload Registration Excel File: </label>
+            <input type="file" id="registration_file_upload" name="registration_file_upload" accept=".xlsx">
+            <br>
+            <br>
+            <br>
+            <label for="admission_file_upload" class="home-label">Upload Admission Excel File: </label>
+            <input type="file" id="admission_file_upload" name="admission_file_upload" accept=".xlsx">
+            <br>
+            <br>
+            <br>
+            <label for="fee_file_upload" class="home-label">Upload Fee Excel File: </label>
+            <input type="file" id="fee_file_upload" name="fee_file_upload" accept=".xlsx">
+            <br>
+            <br>
+            <button type="submit" class="home-button"> Upload</button>
+
+        </form>
+
+    </div>
+</body>
+
+</html>

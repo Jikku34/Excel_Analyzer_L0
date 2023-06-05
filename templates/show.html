@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .excel-show {
+            width: 98%;
+            height: 98%;
+            margin-left: 15px;
+            margin-top: 15px;
+            background-color: rgba(187, 235, 235, 0.308);
+            overflow: auto;
+            font-family: 'Open Sans', sans-serif;
+            border-radius: 10px;
+        }
+
+        #category {
+
+
+            background: #aabeba00;
+            border-radius: 10px;
+            text-align: center;
+            color: #0c0b0b;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Open Sans', sans-serif;
+            width: 150px;
+            height: 25px;
+
+        }
+
+        table {
+            margin-top: 50px;
+
+
+        }
+
+        table,
+        th,
+        td {
+
+            border: 1px solid black;
+            border-collapse: collapse;
+
+
+        }
+
+        tr:hover {
+            background-color: #60b5b870;
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="excel-show">
+        <h1 style="color: #114614b9; text-align: center;"> Excel Analyzer</h1>
+        <a href="{% url 'remove' %}"
+            style="padding: 10px ; background-color: #30835179;color: #dde0dd; border-radius: 4px;margin-left: 20px"> NEW</a>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <label for="category" style="font-size: 20px; margin-left:520px;">Category:</label>
+
+            <select name="Category" id="category">
+                <option value="" disabled selected hidden>Category</option>
+                <option value="admission">Admission </option>
+                <option value="registration">Registration</option>
+                <option value="fee">Fee</option>
+
+            </select>
+            <input
+                style="border-radius: 5px; background-color: rgba(121, 116, 116, 0.884); border: none ; padding: 5px 5px; "
+                type="submit" value="Submit">
+        </form>
+        <hr>
+
+
+        {% if d == 'fees' %}
+
+        <form action="" method="POST" name="form-2">
+            {% csrf_token %}
+            <select name="Category" hidden>
+                <option value="fee" selected hidden>Fee</option>
+            </select>
+            <label for="fee_category" style="font-size: 20px; margin-left:420px;">Fee Category:</label>
+
+            <select name="fee_category" id="fee_category">
+                <option value="" disabled selected hidden> Fee Category</option>
+                <option value="Fee_Details">All Student Fee Details </option>
+                <option value="Fee_History">Fee History </option>
+                <option value="Pending_Fee">Pending Fee</option>
+                <option value="Full_Payment_Students">Full Payment Students</option>
+            </select>
+            <input type="text" placeholder="Search.." name="search">
+            <input
+                style="border-radius: 5px; background-color: rgba(121, 116, 116, 0.884); border: none ; padding: 5px 5px; "
+                type="submit" value="Submit" name="form-2-submit">
+        </form>
+
+        {% if d1 == "Fee_History" %}
+        <h2 style="text-align: center; color: rgb(7, 39, 12) ;">Fee History</h2>
+        <table style="width:100%; background-color: rgb(222, 233, 233);">
+            <tr>
+                <th>Course Start Date</th>
+                <th>Reg. No</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Course</th>
+                <th>Contact No</th>
+                <th>Payment Date</th>
+                <th>Payment Amount</th>
+                <th>Branch</th>
+                <th>Effective fee</th>
+                <th>Mode Training</th>
+                <th>Link</th>
+
+
+            </tr>
+            {% for y in data1 %}
+            {% for x in data %}
+            {% if y.student_id == x.student_reg_no %}
+            <tr>
+                <td>{{x.student_start_date}}</td>
+                <td>{{x.student_reg_no}}</td>
+                <td>{{x.student_name}}</td>
+                <td>{{x.student_department}}</td>
+                <td>{{x.student_Course}}</td>
+                <td>{{x.student_phone}}</td>
+                <td>{{y.student_date_fee}}</td>
+                <td>{{y.student_fee}}</td>
+                <td>{{x.branch}}</td>
+                <td>{{x.student_effective_fee}}</td>
+                <td>{{x.student_mode_training}}</td>
+                <td><a href="student_profile/{{x.student_reg_no}}">Link</a></td>
+
+            </tr>
+
+
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+        </table>
+        {% elif d1 == "Full_Payment_Students" %}
+        <h2 style="text-align: center; color: rgb(7, 39, 12) ;">Full Payment Students</h2>
+        <table style="width:100%; background-color: rgb(222, 233, 233);">
+            <tr>
+                <th>Course Start Date</th>
+                <th>Reg. No</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Course</th>
+                <th>Contact No</th>
+                <th>student fee paid </th>
+                <th>Effective fee</th>
+                <th>student_balance_fee</th>
+
+
+                <th>Mode Training</th>
+                <th>student fee status</th>
+                <th>Link</th>
+
+
+            </tr>
+            {% for y in data10 %}
+            {% for x in data9 %}
+            {% if y.student_id == x.student_reg_no %}
+            <tr>
+                <td>{{x.student_start_date}}</td>
+                <td>{{x.student_reg_no}}</td>
+                <td>{{x.student_name}}</td>
+                <td>{{x.student_department}}</td>
+                <td>{{x.student_Course}}</td>
+                <td>{{x.student_phone}}</td>
+                <td>{{y.student_fee_paid }}</td>
+                <td>{{x.student_effective_fee}}</td>
+                <td>{{y.student_balance_fee}}</td>
+
+                <td>{{x.student_mode_training}}</td>
+                <td>{{y.student_fee_status}}</td>
+                <td><a href="student_profile/{{x.student_reg_no}}">Link</a></td>
+
+            </tr>
+
+
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+        </table>
+        {% elif d1 == "Pending_Fee" %}
+        <h2 style="text-align: center; color: rgb(7, 39, 12) ;">Pending Fee</h2>
+
+        <table style="width:100%; background-color: rgb(222, 233, 233);">
+            <tr>
+                <th>Course Start Date</th>
+                <th>Reg. No</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Course</th>
+                <th>Contact No</th>
+                <th>student fee paid </th>
+                <th>Effective fee</th>
+                <th>student_balance_fee</th>
+
+
+                <th>Mode Training</th>
+                <th>student fee status</th>
+                <th>Link</th>
+
+
+            </tr>
+            {% for y in data8 %}
+            {% for x in data7 %}
+            {% if y.student_id == x.student_reg_no %}
+            <tr>
+                <td>{{x.student_start_date}}</td>
+                <td>{{x.student_reg_no}}</td>
+                <td>{{x.student_name}}</td>
+                <td>{{x.student_department}}</td>
+                <td>{{x.student_Course}}</td>
+                <td>{{x.student_phone}}</td>
+                <td>{{y.student_fee_paid }}</td>
+                <td>{{x.student_effective_fee}}</td>
+                <td>{{y.student_balance_fee}}</td>
+
+                <td>{{x.student_mode_training}}</td>
+                <td>{{y.student_fee_status}}</td>
+                <td><a href="student_profile/{{x.student_reg_no}}">Link</a></td>
+
+            </tr>
+
+
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+        </table>
+
+        {% elif d1 == 'search' %}
+
+        <table style="width:100%; background-color: rgb(222, 233, 233);">
+            <tr>
+                <th>Course Start Date</th>
+                <th>Reg. No</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Course</th>
+                <th>Contact No</th>
+                <th>student fee paid </th>
+                <th>Effective fee</th>
+                <th>student_balance_fee</th>
+                <th>Mode Training</th>
+                <th>student fee status</th>
+                <th>Link</th>
+
+
+            </tr>
+            {% for y in data14 %}
+            {% for x in data13 %}
+            {% if y.student_id == x.student_reg_no %}
+            <tr>
+                <td>{{x.student_start_date}}</td>
+                <td>{{x.student_reg_no}}</td>
+                <td>{{x.student_name}}</td>
+                <td>{{x.student_department}}</td>
+                <td>{{x.student_Course}}</td>
+                <td>{{x.student_phone}}</td>
+                <td>{{y.student_fee_paid }}</td>
+                <td>{{x.student_effective_fee}}</td>
+                <td>{{y.student_balance_fee}}</td>
+                <td>{{x.student_mode_training}}</td>
+                <td>{{y.student_fee_status}}</td>
+                <td><a href="student_profile/{{x.student_reg_no}}">Link</a></td>
+
+            </tr>
+
+
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+        </table>
+
+        {% else %}
+        <h2 style="text-align: center; color: rgb(7, 39, 12) ;">Fee Details</h2>
+
+        <table style="width:100%; background-color: rgb(222, 233, 233);">
+            <tr>
+                <th>Course Start Date</th>
+                <th>Reg. No</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Course</th>
+                <th>Contact No</th>
+                <th>student fee paid </th>
+                <th>Effective fee</th>
+                <th>student_balance_fee</th>
+                <th>Mode Training</th>
+                <th>student fee status</th>
+                <th>Link</th>
+
+
+            </tr>
+            {% for y in data14 %}
+            {% for x in data13 %}
+            {% if y.student_id == x.student_reg_no %}
+            <tr>
+                <td>{{x.student_start_date}}</td>
+                <td>{{x.student_reg_no}}</td>
+                <td>{{x.student_name}}</td>
+                <td>{{x.student_department}}</td>
+                <td>{{x.student_Course}}</td>
+                <td>{{x.student_phone}}</td>
+                <td>{{y.student_fee_paid }}</td>
+                <td>{{x.student_effective_fee}}</td>
+                <td>{{y.student_balance_fee}}</td>
+
+                <td>{{x.student_mode_training}}</td>
+                <td>{{y.student_fee_status}}</td>
+                <td><a href="student_profile/{{x.student_reg_no}}">Link</a></td>
+
+            </tr>
+
+
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+        </table>
+        {% endif %}
+
+
+        {% elif d == 'registration' %}
+        <h2 style="text-align: center; color: rgb(7, 39, 12) ;">Students Registration</h2>
+
+
+        <table style="width:100%; background-color: rgb(222, 233, 233);">
+            <tr>
+                <th>Reg.Date</th>
+                <th>Reg. No</th>
+                <th>Branch</th>
+                <th>Name</th>
+                <th>Contact No</th>
+                <th>Staff</th>
+                <th>Department</th>
+                <th>Course</th>
+                <th>Link</th>
+
+            </tr>
+            {% for x in data %}
+            <tr>
+                <td>{{x.student_reg_date}}</td>
+                <td>{{x.student_reg_no}}</td>
+                <td>{{x.branch}}</td>
+                <td>{{x.student_name}}</td>
+                <td>{{x.student_phone}}</td>
+                <td>{{x.student_staff}}</td>
+                <td>{{x.student_department}}</td>
+                <td>{{x.student_Course}}</td>
+                <td><a href="student_profile/{{x.student_reg_no}}">Link</a></td>
+
+            </tr>
+            {% endfor %}
+
+        </table>
+        <hr>
+        {% elif d == "admission" %}
+        <h2 style="text-align: center; color: rgb(7, 39, 12) ;">Students Admission Details</h2>
+        <table style="width:100%; background-color: rgb(222, 233, 233);">
+            <tr>
+                <th>Admn. Date</th>
+                <th>Admission No</th>
+                <th>Start Date</th>
+                <th>Reg.Date</th>
+                <th>Reg. No</th>
+                <th>Branch</th>
+                <th>Name</th>
+                <th>Contact No</th>
+                <th>Staff</th>
+                <th>Department</th>
+                <th>Course</th>
+                <th>Link</th>
+
+            </tr>
+            {% for x in data %}
+            <tr>
+                <td>{{x.student_admission_date}}</td>
+                <td>{{x.student_admission_no}}</td>
+                <td>{{x.student_start_date}}</td>
+                <td>{{x.student_reg_date}}</td>
+                <td>{{x.student_reg_no}}</td>
+                <td>{{x.branch}}</td>
+                <td>{{x.student_name}}</td>
+                <td>{{x.student_phone}}</td>
+                <td>{{x.student_staff}}</td>
+                <td>{{x.student_department}}</td>
+                <td>{{x.student_Course}}</td>
+                <td><a href="student_profile/{{x.student_reg_no}}">Link</a></td>
+
+            </tr>
+            {% endfor %}
+
+        </table>
+        {% else %}
+        <h1 style="text-align: center; color: rgb(7, 39, 12) ;">Welcome to Excel Analyzer</h1>
+        {% endif %}
+
+
+    </div>
+</body>
+
+</html>
